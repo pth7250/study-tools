@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="학생용 무료 공부 도구. 내신 5등급제와 9등급제, 수행평가, 시험 목표점수, NEIS 생기부 바이트, 공부시간, D-Day 계산기">
+<meta name="keywords" content="내신등급계산기,5등급제,9등급제,수행평가계산기,생기부글자수,나이스바이트,시험점수계산기">
+<title>공부도구함 | 내신·생기부·시험 계산기</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f6f7fb;color:#172033}
+header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:5}.nav{max-width:1080px;margin:auto;padding:15px 20px;display:flex;justify-content:space-between}.logo{font-size:21px;font-weight:900}.logo b{color:#4f46e5}.nav small{color:#64748b}
+.hero,.tabs,.grid,.info,.ad{max-width:1080px;margin-left:auto;margin-right:auto;padding-left:20px;padding-right:20px}.hero{padding-top:34px;padding-bottom:18px}.hero h1{font-size:35px;letter-spacing:-1.5px;margin:0 0 8px}.hero p{color:#64748b;margin:0}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.tag{background:#eef2ff;color:#4338ca;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:700}
+.ad{margin-bottom:16px}.adbox{height:90px;border:1px dashed #cbd5e1;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#94a3b8;background:#fbfcfe}
+.tabs{display:flex;gap:8px;overflow:auto}.tab{white-space:nowrap;border:1px solid #dfe3eb;background:#fff;border-radius:10px;padding:9px 13px;font-weight:800;cursor:pointer}.tab.active{background:#172033;color:#fff}
+.grid{display:none;padding-top:18px;padding-bottom:28px;grid-template-columns:repeat(2,1fr);gap:16px}.grid.active{display:grid}.card{background:#fff;border:1px solid #e5e8ef;border-radius:18px;padding:21px;box-shadow:0 6px 22px rgba(20,30,60,.04)}.card h2{font-size:19px;margin:0 0 5px}.desc,.note{font-size:13px;color:#64748b}.desc{margin:0 0 10px}
+input,select,textarea,button{width:100%;font:inherit;border-radius:10px}input,select,textarea{border:1px solid #d8deea;padding:11px;margin-top:7px;background:#fff}textarea{min-height:120px;resize:vertical}button{border:0;padding:11px;margin-top:9px;background:#4f46e5;color:#fff;font-weight:800;cursor:pointer}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.result{margin-top:11px;padding:12px;border-radius:11px;background:#f1f3ff;font-weight:750;min-height:44px}
+.info{padding-bottom:30px}.infoBox{background:#fff;border:1px solid #e5e8ef;border-radius:18px;padding:21px}.infoBox h2{margin-top:0}footer{text-align:center;color:#94a3b8;padding:35px 20px;font-size:13px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.hero h1{font-size:29px}.row{grid-template-columns:1fr}.nav small{display:none}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo">공부<b>도구함</b> 📚</div><small>학생용 무료 계산기</small></div></header>
+
+<section class="hero">
+<h1>학생들이 자주 찾는 공부 계산기</h1>
+<p>내신·수행평가·생기부·시험·공부시간을 한곳에서 빠르게 계산하세요.</p>
+<div class="tags"><span class="tag">내신 5등급제</span><span class="tag">내신 9등급제</span><span class="tag">NEIS 바이트</span><span class="tag">수행평가</span><span class="tag">시험 목표점수</span></div>
+</section>
+<div class="ad"><div class="adbox">광고 영역</div></div>
+
+<nav class="tabs">
+<button class="tab active" data-target="grade">📊 내신·성적</button>
+<button class="tab" data-target="record">📝 생기부</button>
+<button class="tab" data-target="study">⏱️ 공부·시험</button>
+<button class="tab" data-target="date">📅 일정</button>
+</nav>
+
+<section id="grade" class="grid active">
+<article class="card"><h2>🏫 내신 5등급제 계산기</h2><p class="desc">석차와 전체 인원으로 누적비율과 예상 등급을 확인합니다.</p><div class="row"><input id="r5" type="number" placeholder="내 석차"><input id="n5" type="number" placeholder="전체 인원"></div><button onclick="grade5()">5등급 계산</button><div class="result" id="g5"></div><p class="note">일반적인 5등급 누적비율 기준입니다. 동점자와 학교 성적처리에 따라 실제 결과가 달라질 수 있습니다.</p></article>
+
+<article class="card"><h2>📚 내신 9등급제 계산기</h2><p class="desc">기존 9등급제의 예상 석차등급을 계산합니다.</p><div class="row"><input id="r9" type="number" placeholder="내 석차"><input id="n9" type="number" placeholder="전체 인원"></div><button onclick="grade9()">9등급 계산</button><div class="result" id="g9"></div><p class="note">학년에 따라 적용 체제가 다를 수 있으므로 자신의 학년을 확인하세요.</p></article>
+
+<article class="card"><h2>🎯 수행평가 + 시험 반영점수</h2><p class="desc">지필과 수행의 반영비율을 합쳐 최종 환산점수를 계산합니다.</p><div class="row"><input id="es" type="number" placeholder="시험 점수"><input id="ew" type="number" placeholder="시험 반영 %"></div><div class="row"><input id="ps" type="number" placeholder="수행 점수"><input id="pw" type="number" placeholder="수행 반영 %"></div><button onclick="weighted()">환산점수 계산</button><div class="result" id="wr"></div></article>
+
+<article class="card"><h2>🔥 다음 시험 목표점수</h2><p class="desc">최종 목표점수에 도달하려면 다음 시험에서 몇 점이 필요한지 역산합니다.</p><input id="cur" type="number" placeholder="현재까지 환산점수 (0~100)"><input id="nw" type="number" placeholder="다음 시험 반영비율 (%)"><input id="goal" type="number" placeholder="최종 목표점수 (0~100)"><button onclick="goalScore()">필요 점수 계산</button><div class="result" id="gr"></div></article>
+
+<article class="card"><h2>📈 점수 평균 계산기</h2><p class="desc">예: 87, 92, 76</p><input id="avg" placeholder="점수를 쉼표로 입력"><button onclick="average()">평균 계산</button><div class="result" id="ar"></div></article>
+
+<article class="card"><h2>🏆 등수 → 상위비율</h2><p class="desc">시험이나 모의고사에서 자신의 대략적인 위치를 확인합니다.</p><div class="row"><input id="rank" type="number" placeholder="내 등수"><input id="total" type="number" placeholder="전체 인원"></div><button onclick="percent()">계산하기</button><div class="result" id="pr"></div></article>
+</section>
+
+<section id="record" class="grid">
+<article class="card"><h2>📝 NEIS 생기부 바이트 계산기</h2><p class="desc">생기부 문장을 붙여 넣어 글자 수와 바이트를 확인합니다.</p><select id="preset" onchange="preset()"><option value="1500">과목별 세특 · 1,500B</option><option value="2100">진로활동 · 2,100B</option><option value="1500">자율·동아리·행특 · 1,500B</option><option value="custom">직접 한도 입력</option></select><input id="limit" type="number" value="1500"><textarea id="bt" oninput="byteCount()" placeholder="생기부 문장을 붙여 넣으세요."></textarea><div class="result" id="br">0B · 0자</div><p class="note">일반적인 NEIS 방식으로 계산합니다. 학교·연도·시스템 기준이 다를 수 있으니 최종 입력 전 실제 기준을 확인하세요.</p></article>
+
+<article class="card"><h2>✍️ 글자 수 세기</h2><p class="desc">수행평가와 보고서의 글자 수를 확인합니다.</p><textarea id="txt" oninput="countText()" placeholder="글을 입력하세요."></textarea><div class="result" id="cr">0자 · 공백 포함</div></article>
+
+<article class="card"><h2>🔁 반복 단어 찾기</h2><p class="desc">문장 안에서 2회 이상 반복되는 단어를 간단히 찾습니다.</p><textarea id="rep" placeholder="문장을 붙여 넣으세요."></textarea><button onclick="repeatCheck()">반복 단어 찾기</button><div class="result" id="rr"></div></article>
+</section>
+
+<section id="study" class="grid">
+<article class="card"><h2>⏱️ 공부시간 계산기</h2><p class="desc">예: 1:30, 2:20, 0:45</p><input id="times" placeholder="공부시간 입력"><button onclick="studyTime()">총 공부시간</button><div class="result" id="tr"></div></article>
+<article class="card"><h2>📚 시험 공부 가능시간</h2><p class="desc">시험까지 남은 날과 하루 공부시간을 계산합니다.</p><div class="row"><input id="days" type="number" placeholder="남은 일수"><input id="hours" type="number" step="0.5" placeholder="하루 공부시간"></div><button onclick="plan()">계획 계산</button><div class="result" id="pl"></div></article>
+<article class="card"><h2>💰 저축 계산기</h2><p class="desc">목표 금액까지 필요한 개월 수를 계산합니다.</p><input id="target" type="number" placeholder="목표 금액 (원)"><input id="monthly" type="number" placeholder="월 저축액 (원)"><button onclick="saving()">계산하기</button><div class="result" id="sv"></div></article>
+</section>
+
+<section id="date" class="grid">
+<article class="card"><h2>📅 D-Day 계산기</h2><p class="desc">시험·수행평가·방학까지 남은 날짜를 계산합니다.</p><input id="date" type="date"><button onclick="dday()">D-Day 계산</button><div class="result" id="dd"></div></article>
+<article class="card"><h2>🗓️ 시험일 여러 개 D-Day</h2><p class="desc">시험 날짜를 최대 3개까지 한 번에 확인합니다.</p><input id="d1" type="date"><input id="d2" type="date"><input id="d3" type="date"><button onclick="multi()">계산하기</button><div class="result" id="md"></div></article>
+</section>
+
+<section class="info"><div class="infoBox"><h2>학생용으로 필요한 기능을 한곳에</h2><p>내신 등급, 수행평가 반영점수, 생기부 바이트, 시험 목표점수처럼 결과가 바로 필요한 기능을 중심으로 구성했습니다.</p><p>특히 현재 고등학교에서는 학년에 따라 내신 5등급제와 9등급제를 구분해서 볼 필요가 있어 두 계산기를 따로 배치했습니다.</p><p>계산기는 기본적으로 입력 내용을 서버에 저장하지 않고 브라우저에서 처리하도록 만들었습니다.</p></div></section>
+<footer>공부도구함 · 무료 학생용 도구</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".grid").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
+
+function grade5(){let r=+$("r5").value,n=+$("n5").value;if(!r||!n||r>n){$("g5").textContent="석차와 전체 인원을 입력하세요.";return}let p=r/n*100,g=p<=10?1:p<=34?2:p<=66?3:p<=90?4:5;$("g5").innerHTML=`누적비율 <b>${p.toFixed(2)}%</b> · 예상 <b>${g}등급</b>`}
+function grade9(){let r=+$("r9").value,n=+$("n9").value;if(!r||!n||r>n){$("g9").textContent="석차와 전체 인원을 입력하세요.";return}let p=r/n*100,g=p<=4?1:p<=11?2:p<=23?3:p<=40?4:p<=60?5:p<=77?6:p<=89?7:p<=96?8:9;$("g9").innerHTML=`누적비율 <b>${p.toFixed(2)}%</b> · 예상 <b>${g}등급</b>`}
+function weighted(){let e=+$("es").value,ew=+$("ew").value,p=+$("ps").value,pw=+$("pw").value;if(ew+pw!==100){$("wr").textContent="시험·수행 반영비율 합계를 100%로 맞춰주세요.";return}$("wr").innerHTML=`최종 환산점수: <b>${(e*ew/100+p*pw/100).toFixed(2)}점</b>`}
+function goalScore(){let c=+$("cur").value,w=+$("nw").value,g=+$("goal").value;if(w<=0||g<0||g>100){$("gr").textContent="값을 확인하세요.";return}let need=(g-c*(1-w/100))/(w/100);$("gr").innerHTML=need>100?`필요 점수 <b>${need.toFixed(1)}점</b> · 100점을 넘어 목표 달성이 어렵습니다.`:`필요한 다음 시험 점수: <b>${Math.max(0,need).toFixed(1)}점</b>`}
+function average(){let a=$("avg").value.split(",").map(Number).filter(x=>!isNaN(x));$("ar").textContent=a.length?`평균: ${(a.reduce((x,y)=>x+y,0)/a.length).toFixed(2)}점`:"점수를 입력하세요."}
+function percent(){let r=+$("rank").value,n=+$("total").value;if(!r||!n||r>n){$("pr").textContent="등수와 전체 인원을 입력하세요.";return}$("pr").innerHTML=`상위 약 <b>${(r/n*100).toFixed(2)}%</b>`}
+function preset(){if($("preset").value!=="custom")$("limit").value=$("preset").value;byteCount()}
+function byteCount(){let s=$("bt").value,b=0;for(let c of s)b+=(c=="\n"||c=="\r")?2:(c.codePointAt(0)<=127?1:3);let l=+$("limit").value||1500;$("br").innerHTML=`<b>${b.toLocaleString()}B</b> · ${s.length.toLocaleString()}자 · ${b<=l?`남은 ${l-b}B`:`초과 ${b-l}B`}`}
+function countText(){let s=$("txt").value;$("cr").textContent=`${s.length.toLocaleString()}자 · 공백 포함 / ${s.replace(/\s/g,"").length.toLocaleString()}자 · 공백 제외`}
+function repeatCheck(){let a=$("rep").value.toLowerCase().match(/[가-힣a-zA-Z0-9]{2,}/g)||[],m={};a.forEach(w=>m[w]=(m[w]||0)+1);let r=Object.entries(m).filter(x=>x[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8);$("rr").innerHTML=r.length?r.map(x=>`${x[0]} × ${x[1]}`).join("<br>"):"2회 이상 반복된 단어가 없습니다."}
+function studyTime(){let a=$("times").value.split(","),m=0;for(let t of a){let p=t.trim().split(":");if(p.length!=2){$("tr").textContent="형식: 1:30, 2:20";return}m+=+p[0]*60 + +p[1]}$("tr").textContent=`총 공부시간: ${Math.floor(m/60)}시간 ${m%60}분`}
+function plan(){let d=+$("days").value,h=+$("hours").value;if(d<=0||h<0){$("pl").textContent="값을 입력하세요.";return}$("pl").innerHTML=`확보 가능한 공부시간: <b>${(d*h).toFixed(1)}시간</b>`}
+function saving(){let t=+$("target").value,m=+$("monthly").value;$("sv").textContent=t>0&&m>0?`약 ${Math.ceil(t/m)}개월 필요`:"금액을 입력하세요."}
+function dday(){let v=$("date").value;if(!v)return;let a=new Date();a.setHours(0,0,0,0);let b=new Date(v+"T00:00:00"),d=Math.ceil((b-a)/86400000);$("dd").textContent=d>0?"D-"+d:d==0?"D-Day":"D+"+Math.abs(d)}
+function multi(){let a=new Date();a.setHours(0,0,0,0),out=[];["d1","d2","d3"].forEach((id,i)=>{if($(id).value){let d=Math.ceil((new Date($(id).value+"T00:00:00")-a)/86400000);out.push(`${i+1}번: ${d>0?"D-"+d:d==0?"D-Day":"D+"+Math.abs(d)}`)}});$("md").innerHTML=out.length?out.join("<br>"):"날짜를 입력하세요."}
+</script>
+</body>
+</html>
