@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="학생을 위한 평균, 내신, 공부시간, 글자수, D-Day 계산기">
+<title>공부도구함 | 학생용 계산기</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f7fb;color:#172033}
+header{background:#fff;border-bottom:1px solid #e8ebf2;position:sticky;top:0;z-index:10}
+.nav{max-width:1000px;margin:auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:21px;font-weight:800}.logo span{color:#4f46e5}
+.hero{max-width:1000px;margin:34px auto 20px;padding:0 20px}.hero h1{font-size:34px;margin:0 0 10px}.hero p{color:#64748b;margin:0}
+.grid{max-width:1000px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:#fff;border:1px solid #e7eaf0;border-radius:18px;padding:22px;box-shadow:0 5px 20px rgba(20,30,60,.04)}
+.card h2{margin:0 0 8px;font-size:20px}.card p{color:#64748b;font-size:14px}
+input,button,textarea{width:100%;padding:12px;border:1px solid #d9deea;border-radius:10px;font:inherit;margin-top:8px}
+button{background:#4f46e5;color:white;border:0;font-weight:700;cursor:pointer}.result{margin-top:12px;padding:12px;background:#f1f3ff;border-radius:10px;font-weight:700;min-height:20px}
+textarea{min-height:100px;resize:vertical}
+.ad{max-width:1000px;margin:0 auto 20px;padding:0 20px}.adbox{height:90px;border:1px dashed #cbd5e1;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#94a3b8;background:#fafbfc}
+footer{text-align:center;color:#94a3b8;padding:35px 20px;font-size:13px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo">공부<span>도구함</span> 📚</div><small>학생용 무료 계산기</small></div></header>
+
+<section class="hero">
+<h1>공부할 때 필요한 계산기, 한곳에.</h1>
+<p>평균부터 D-Day까지 복잡한 계산을 빠르게 해결해보세요.</p>
+</section>
+
+<div class="ad"><div class="adbox">광고 영역</div></div>
+
+<main class="grid">
+<section class="card">
+<h2>🧮 평균 계산기</h2><p>점수를 쉼표로 입력하세요. 예: 85, 92, 76</p>
+<input id="avg" placeholder="85, 92, 76">
+<button onclick="average()">평균 계산</button><div class="result" id="avgResult"></div>
+</section>
+
+<section class="card">
+<h2>📊 내신 가중평균</h2><p>점수와 반영비율을 각각 입력하세요.</p>
+<input id="scores" placeholder="90, 80, 95">
+<input id="weights" placeholder="30, 30, 40">
+<button onclick="weighted()">계산하기</button><div class="result" id="weightedResult"></div>
+</section>
+
+<section class="card">
+<h2>⏱️ 공부시간 계산기</h2><p>공부한 시간을 합산합니다.</p>
+<input id="times" placeholder="1:30, 2:20, 0:45">
+<button onclick="studyTime()">계산하기</button><div class="result" id="timeResult"></div>
+</section>
+
+<section class="card">
+<h2>🔤 글자 수 세기</h2><p>자기소개서나 수행평가 글자 수를 확인하세요.</p>
+<textarea id="text" oninput="countText()" placeholder="여기에 글을 입력하세요."></textarea>
+<div class="result" id="countResult">0자 · 공백 포함</div>
+</section>
+
+<section class="card">
+<h2>📅 D-Day 계산기</h2><p>목표 날짜까지 남은 날짜를 계산합니다.</p>
+<input id="date" type="date">
+<button onclick="dday()">D-Day 계산</button><div class="result" id="ddayResult"></div>
+</section>
+
+<section class="card">
+<h2>💰 저축 계산기</h2><p>매달 저축하면 목표 금액까지 얼마나 걸릴까요?</p>
+<input id="target" type="number" placeholder="목표 금액 (원)">
+<input id="monthly" type="number" placeholder="매달 저축액 (원)">
+<button onclick="saving()">계산하기</button><div class="result" id="savingResult"></div>
+</section>
+</main>
+
+<footer>공부도구함 · 계산 결과는 브라우저에서만 처리됩니다.</footer>
+
+<script>
+const nums = id => document.getElementById(id).value.split(",").map(x=>Number(x.trim())).filter(x=>!isNaN(x));
+function average(){let a=nums("avg");document.getElementById("avgResult").textContent=a.length?"평균: "+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(2):"점수를 입력하세요."}
+function weighted(){let s=nums("scores"),w=nums("weights");if(!s.length||s.length!==w.length){document.getElementById("weightedResult").textContent="점수와 비율의 개수를 맞춰주세요.";return}let total=w.reduce((a,b)=>a+b,0);document.getElementById("weightedResult").textContent=total?"가중평균: "+(s.reduce((sum,x,i)=>sum+x*w[i],0)/total).toFixed(2):"비율을 입력하세요."}
+function studyTime(){let a=document.getElementById("times").value.split(",").map(x=>x.trim());let min=0;for(let t of a){let p=t.split(":");if(p.length!==2||isNaN(p[0])||isNaN(p[1])){document.getElementById("timeResult").textContent="형식: 1:30, 2:20";return}min+=Number(p[0])*60+Number(p[1])}document.getElementById("timeResult").textContent=`총 공부시간: ${Math.floor(min/60)}시간 ${min%60}분`}
+function countText(){let t=document.getElementById("text").value;document.getElementById("countResult").textContent=`${t.length.toLocaleString()}자 · 공백 포함 / ${t.replace(/\s/g,"").length.toLocaleString()}자 · 공백 제외`}
+function dday(){let v=document.getElementById("date").value;if(!v)return;let today=new Date();today.setHours(0,0,0,0);let target=new Date(v+"T00:00:00");let d=Math.ceil((target-today)/86400000);document.getElementById("ddayResult").textContent=d>0?`D-${d}`:d===0?"D-Day":`D+${Math.abs(d)}`}
+function saving(){let t=Number(document.getElementById("target").value),m=Number(document.getElementById("monthly").value);document.getElementById("savingResult").textContent=t>0&&m>0?`약 ${Math.ceil(t/m)}개월 필요`: "금액을 입력하세요."}
+</script>
+</body>
+</html>
