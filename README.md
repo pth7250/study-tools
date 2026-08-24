@@ -2,7 +2,8 @@
 
 내신, 생기부, 시험 일정, 공부시간을 브라우저에서 계산할 수 있는 정적 멀티페이지 웹 애플리케이션입니다.
 
-- 서비스: https://pth7250.github.io/study-tools/
+- 서비스(현재 접속 가능): [공부도구함](https://pth7250.github.io/study-tools/src/pages/index.html)
+- 정식 서비스 주소: [https://pth7250.github.io/study-tools/](https://pth7250.github.io/study-tools/) (GitHub Pages 배포 source를 `GitHub Actions`로 설정하면 이 주소로 정상 제공됩니다.)
 - 배포: GitHub Pages
 - 프레임워크: Vite + Vanilla JavaScript
 - 백엔드: 없음
