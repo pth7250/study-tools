@@ -4,6 +4,7 @@ import { calculateRankPercentile, getRankGrade } from "../src/js/calculators/ran
 import { calculateAverage, calculateGoalScore, calculatePerformanceScore, calculateWeightedAverage, parseScoreList } from "../src/js/calculators/score.js";
 import { calculateNeisBytes, countCharacters } from "../src/js/calculators/text.js";
 import { calculateAvailableStudyHours, calculateStudyMinutes, parseStudyDurations } from "../src/js/calculators/time.js";
+import { formatTimerSeconds, TIMER_DURATION_SECONDS } from "../src/js/calculators/timer.js";
 
 describe("score calculators", () => {
   it("calculates a score average", () => {
@@ -57,5 +58,11 @@ describe("time and date calculators", () => {
 
   it("calculates a D-Day from a fixed date", () => {
     expect(calculateDday("2026-08-30", new Date("2026-08-24T12:00:00"))).toBe(6);
+  });
+
+  it("formats the default timer duration", () => {
+    expect(TIMER_DURATION_SECONDS).toBe(1500);
+    expect(formatTimerSeconds(TIMER_DURATION_SECONDS)).toBe("25:00");
+    expect(formatTimerSeconds(65)).toBe("01:05");
   });
 });

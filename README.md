@@ -22,6 +22,7 @@
 | 생기부 | NEIS 바이트 | [`byte.html`](src/pages/byte.html) |
 | 생기부 | 글자수 | [`chars.html`](src/pages/chars.html) |
 | 공부 | 공부시간 합계 | [`study.html`](src/pages/study.html) |
+| 공부 | 25분 공부 타이머 | [`timer.html`](src/pages/timer.html) |
 | 공부 | 시험까지 공부 가능시간 | [`plan.html`](src/pages/plan.html) |
 | 시험 | 시험 D-Day | [`dday.html`](src/pages/dday.html) |
 
@@ -39,7 +40,7 @@ study-tools/
 │   │   ├── calculators/          # 화면과 분리된 계산 순수 함수
 │   │   ├── ui/                   # 결과 표시 등 공통 UI 처리
 │   │   └── main.js               # 페이지별 이벤트 연결 진입점
-│   └── styles/style.css           # 기존 화면을 유지하는 공통 스타일
+│   └── styles/style.css          # 기존 화면을 유지하는 공통 스타일
 ├── tests/                        # 계산 로직 단위 테스트
 ├── archive/legacy/               # 기존 ZIP 및 레거시 파일 보관
 ├── package.json
@@ -109,6 +110,7 @@ npm run preview
 | 공부시간 | `시:분` 형식 입력의 합계 |
 | 가능시간 | `남은 일수 × 하루 공부시간` |
 | D-Day | 브라우저의 오늘 날짜와 목표 날짜의 일수 차이 |
+| 공부 타이머 | 브라우저에서 25분 카운트다운과 완료 세션 표시 |
 
 내신 등급, NEIS 바이트, 학교생활기록부 입력 제한은 학교와 교육기관의 공식 기준이 최종 기준입니다. 동점자 처리, 이수단위, 학교별 반영 방식에 따라 실제 결과가 달라질 수 있습니다.
 

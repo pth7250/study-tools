@@ -3,6 +3,7 @@ import { calculateRankPercentile, getRankGrade } from "./calculators/rank.js";
 import { calculateAverage, calculateGoalScore, calculatePerformanceScore, calculateWeightedAverage, getScoreGrade, parseScoreList } from "./calculators/score.js";
 import { calculateNeisBytes, countCharacters } from "./calculators/text.js";
 import { calculateAvailableStudyHours, calculateStudyMinutes, parseStudyDurations } from "./calculators/time.js";
+import { formatTimerSeconds, TIMER_DURATION_SECONDS } from "./calculators/timer.js";
 import { runWithResult, setResult } from "./ui/result.js";
 
 const query = (selector, root = document) => root.querySelector(selector);
@@ -124,6 +125,63 @@ function setupToday() {
   element.textContent = `오늘 ${today.getMonth() + 1}월 ${today.getDate()}일 기준`;
 }
 
+function setupTimer() {
+  const display = query("#timerDisplay");
+  if (!display) return;
+
+  const startButton = query("#timerStart");
+  const resetButton = query("#timerReset");
+  const sessionCount = query("#sessionCount");
+  let seconds = TIMER_DURATION_SECONDS;
+  let running = false;
+  let interval = null;
+  let sessions = 0;
+
+  const render = () => { display.textContent = formatTimerSeconds(seconds); };
+  const reset = () => {
+    window.clearInterval(interval);
+    interval = null;
+    running = false;
+    seconds = TIMER_DURATION_SECONDS;
+    startButton.textContent = "시작";
+    render();
+  };
+  const start = () => {
+    if (running) return;
+    running = true;
+    startButton.textContent = "일시정지";
+    interval = window.setInterval(() => {
+      if (seconds > 0) {
+        seconds -= 1;
+        render();
+        return;
+      }
+
+      window.clearInterval(interval);
+      interval = null;
+      running = false;
+      sessions += 1;
+      sessionCount.textContent = String(sessions);
+      seconds = TIMER_DURATION_SECONDS;
+      startButton.textContent = "시작";
+      render();
+    }, 1000);
+  };
+
+  startButton.addEventListener("click", () => {
+    if (running) {
+      window.clearInterval(interval);
+      interval = null;
+      running = false;
+      startButton.textContent = "계속";
+    } else {
+      start();
+    }
+  });
+  resetButton.addEventListener("click", reset);
+  render();
+}
+
 function createSubjectRow() {
   const row = document.createElement("div");
   row.className = "subject-row";
@@ -186,6 +244,7 @@ function init() {
   setupTabs();
   setupToday();
   setupSubjects();
+  setupTimer();
 }
 
 window.addEventListener("DOMContentLoaded", init);
