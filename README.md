@@ -1,174 +1,172 @@
 # 공부도구함
 
-학생이 내신, 생기부, 시험 일정, 공부시간을 브라우저에서 바로 계산할 수 있도록 만든 정적 웹 도구 모음입니다.
+내신, 생기부, 시험 일정, 공부시간을 브라우저에서 계산할 수 있는 정적 멀티페이지 웹 애플리케이션입니다.
 
 - 서비스: https://pth7250.github.io/study-tools/
-- 저장소: https://github.com/pth7250/study-tools
-- 배포 방식: GitHub Pages
-- 실행 방식: HTML 파일을 브라우저에서 직접 실행하거나 정적 파일 서버로 제공
-- 의존성: 별도 패키지 및 빌드 도구 없음
+- 배포: GitHub Pages
+- 프레임워크: Vite + Vanilla JavaScript
+- 백엔드: 없음
+- 데이터베이스: 없음
 
-## 프로젝트 범위
+## 기능
 
-이 프로젝트는 서버나 사용자 계정이 필요한 애플리케이션이 아니라, 학생이 입력한 값을 브라우저에서 계산해 결과를 보여주는 단일 페이지 도구 모음입니다.
-
-현재 제공하는 도구는 다음과 같습니다.
-
-| 영역 | 도구 | 경로 |
+| 영역 | 도구 | 페이지 |
 | --- | --- | --- |
-| 내신 | 내신 종합 계산기 | [`grade.html`](grade.html) |
-| 내신 | 5등급제 예상 등급 | [`grade5.html`](grade5.html) |
-| 내신 | 9등급제 예상 등급 | [`grade9.html`](grade9.html) |
-| 내신 | 점수 평균 | [`average.html`](average.html) |
-| 내신 | 수행평가 반영점수 | [`performance.html`](performance.html) |
-| 내신 | 등수 상위비율 | [`rank.html`](rank.html) |
-| 내신 | 다음 시험 목표점수 | [`goal.html`](goal.html) |
-| 생기부 | NEIS 바이트 | [`byte.html`](byte.html) |
-| 생기부 | 글자수 | [`chars.html`](chars.html) |
-| 공부 | 공부시간 합계 | [`study.html`](study.html) |
-| 공부 | 시험까지 공부 가능시간 | [`plan.html`](plan.html) |
-| 시험 | 시험 D-Day | [`dday.html`](dday.html) |
+| 내신 | 내신 종합 계산기 | [`grade.html`](src/pages/grade.html) |
+| 내신 | 5등급제 예상 등급 | [`grade5.html`](src/pages/grade5.html) |
+| 내신 | 9등급제 예상 등급 | [`grade9.html`](src/pages/grade9.html) |
+| 내신 | 점수 평균 | [`average.html`](src/pages/average.html) |
+| 내신 | 수행평가 반영점수 | [`performance.html`](src/pages/performance.html) |
+| 내신 | 등수 상위비율 | [`rank.html`](src/pages/rank.html) |
+| 내신 | 다음 시험 목표점수 | [`goal.html`](src/pages/goal.html) |
+| 생기부 | NEIS 바이트 | [`byte.html`](src/pages/byte.html) |
+| 생기부 | 글자수 | [`chars.html`](src/pages/chars.html) |
+| 공부 | 공부시간 합계 | [`study.html`](src/pages/study.html) |
+| 공부 | 시험까지 공부 가능시간 | [`plan.html`](src/pages/plan.html) |
+| 시험 | 시험 D-Day | [`dday.html`](src/pages/dday.html) |
 
-## 계산 기준
-
-각 도구는 다음 기준으로 동작합니다. 학교별 산출 규정이나 공식 입력 제한을 대체하지 않으므로 실제 제출·기록 전에는 학교와 교육기관의 안내를 확인해야 합니다.
-
-| 기능 | 입력 | 계산 기준 |
-| --- | --- | --- |
-| 점수 평균 | `87, 92, 76` | 입력한 점수의 산술 평균 |
-| 내신 종합 | 과목별 점수와 반영비율 | 반영비율을 적용한 가중 평균 |
-| 수행평가 | 시험·수행 점수와 비율 | 두 비율의 합이 100%일 때 환산점수 계산 |
-| 상위비율 | 석차와 전체 인원 | `석차 / 전체 인원 × 100` |
-| 5·9등급제 | 석차와 전체 인원 | 누적비율을 이용한 예상 구간 계산 |
-| 목표점수 | 현재 점수, 다음 시험 비율, 목표점수 | 목표를 만족하는 다음 시험 점수 역산 |
-| NEIS 바이트 | 텍스트 | 한글 3B, 영문·숫자·공백·일반 기호 1B 기준 |
-| 글자수 | 텍스트 | 공백 포함 글자수와 공백 제외 글자수 |
-| 공부시간 | `1:30, 2:20` | `시:분` 단위 기록의 합계 |
-| 가능시간 | 남은 일수, 하루 공부시간 | `남은 일수 × 하루 공부시간` |
-| D-Day | 날짜 | 브라우저의 오늘 날짜와 목표 날짜의 일수 차이 |
-
-## 기술 구조
+## 구조
 
 ```text
-index.html       도구 목록, 카테고리 탭, 도구 검색
-app.js           계산 로직과 홈 화면 인터랙션
-style.css        공통 스타일, 폼, 반응형 레이아웃
-*.html           계산기별 독립 페이지
-robots.txt       검색엔진 크롤링 정책
-sitemap.xml      공개 페이지 목록
-404.html         GitHub Pages용 오류 페이지
+study-tools/
+├── .github/workflows/deploy.yml  # 테스트, 빌드, GitHub Pages 배포
+├── public/                       # 빌드 결과에 그대로 복사되는 정적 파일
+│   ├── robots.txt
+│   └── sitemap.xml
+├── src/
+│   ├── pages/                    # Vite 멀티페이지 입력 HTML
+│   ├── js/
+│   │   ├── calculators/          # 화면과 분리된 계산 순수 함수
+│   │   ├── ui/                   # 결과 표시 등 공통 UI 처리
+│   │   └── main.js               # 페이지별 이벤트 연결 진입점
+│   └── styles/style.css           # 기존 화면을 유지하는 공통 스타일
+├── tests/                        # 계산 로직 단위 테스트
+├── archive/legacy/               # 기존 ZIP 및 레거시 파일 보관
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── README.md
 ```
 
-페이지별 HTML을 직접 제공하고 `app.js`, `style.css`를 공통으로 참조하는 구조입니다. 프레임워크, 번들러, 데이터베이스, API 서버는 사용하지 않습니다.
+계산 로직은 `src/js/calculators`에 있는 순수 함수로 관리합니다. HTML은 입력과 화면 구조만 담당하고, `src/js/main.js`가 페이지의 `data-calculator` 속성을 기준으로 해당 계산기를 연결합니다.
 
-## 로컬 실행
+이 프로젝트에는 사용자 계정, 데이터 저장, API 서버가 없습니다. 입력값은 브라우저 안에서만 처리됩니다. 계산 결과를 저장하거나 여러 기기에서 동기화해야 하는 요구가 생길 때만 별도의 API와 데이터베이스를 추가합니다.
 
-### 요구 사항
+## 요구 사항
 
-- Git
-- 최신 버전의 Chrome, Edge, Firefox 또는 Safari
-- 정적 서버로 실행하려는 경우 Python 3 또는 동등한 HTTP 서버
+- Node.js 24 이상
+- npm 11 이상
 
-### 저장소 받기
+버전 확인:
+
+```bash
+node --version
+npm --version
+```
+
+## 시작하기
 
 ```bash
 git clone https://github.com/pth7250/study-tools.git
 cd study-tools
+npm install
 ```
 
-### 브라우저에서 직접 확인
-
-`index.html`을 브라우저로 열어도 됩니다. 다만 GitHub Pages와 동일한 환경에서 확인하려면 정적 HTTP 서버를 사용하는 편이 좋습니다.
-
-### 정적 서버로 확인
-
-Python이 설치되어 있다면 다음 중 하나를 실행합니다.
+개발 서버 실행:
 
 ```bash
-python -m http.server 8080
+npm run dev
 ```
 
-Windows에서 `python` 명령이 동작하지 않으면 다음을 사용할 수 있습니다.
+터미널에 표시된 로컬 URL을 브라우저에서 엽니다. 개발 서버를 사용하지 않고 결과물만 확인하려면 다음 명령을 사용합니다.
 
-```powershell
-py -m http.server 8080
+```bash
+npm run build
+npm run preview
 ```
 
-브라우저에서 http://localhost:8080 을 엽니다.
+## npm 스크립트
 
-## 변경 방법
+| 명령 | 설명 |
+| --- | --- |
+| `npm run dev` | Vite 개발 서버 실행 |
+| `npm test` | Vitest 단위 테스트 실행 |
+| `npm run build` | `dist/`에 GitHub Pages 배포 결과 생성 |
+| `npm run preview` | `dist/` 결과를 로컬에서 미리보기 |
 
-### 새 계산기 추가
+## 계산 기준
 
-1. 계산기 페이지를 루트에 `<도구명>.html` 형식으로 추가합니다.
-2. 공통 `style.css`를 사용하고, 결과 영역에는 `aria-live="polite"`를 유지합니다.
-3. 홈 화면의 적절한 카테고리에 도구 카드와 링크를 추가합니다.
-4. 페이지의 `title`, `description`, canonical URL을 추가합니다.
-5. `sitemap.xml`에 공개 URL을 추가합니다.
-6. 정상 입력, 빈 입력, 범위를 벗어난 입력을 확인합니다.
+| 기능 | 계산 기준 |
+| --- | --- |
+| 점수 평균 | 입력 점수의 산술 평균 |
+| 내신 종합 | 과목 점수와 가중치의 가중 평균 |
+| 수행평가 | 시험·수행 점수와 반영비율을 합산하며 비율 합은 100% |
+| 상위비율 | `석차 / 전체 인원 × 100` |
+| 5·9등급제 | 석차 누적비율을 이용한 예상 구간 |
+| 목표점수 | 현재 점수와 다음 시험 반영비율로 필요한 점수 역산 |
+| NEIS 바이트 | 한글 3B, 영문·숫자·공백·일반 기호 1B 기준 |
+| 글자수 | Unicode 기준 공백 포함·제외 글자수 |
+| 공부시간 | `시:분` 형식 입력의 합계 |
+| 가능시간 | `남은 일수 × 하루 공부시간` |
+| D-Day | 브라우저의 오늘 날짜와 목표 날짜의 일수 차이 |
 
-### 계산 기준 변경
+내신 등급, NEIS 바이트, 학교생활기록부 입력 제한은 학교와 교육기관의 공식 기준이 최종 기준입니다. 동점자 처리, 이수단위, 학교별 반영 방식에 따라 실제 결과가 달라질 수 있습니다.
 
-계산식을 변경할 때는 다음을 함께 수정해야 합니다.
+## 새 계산기 추가
 
-- 화면의 입력 설명과 예시
-- `app.js`의 유효성 검사와 결과 문구
-- 홈 화면 및 계산기 페이지의 주의사항
-- README의 계산 기준 표
+1. `src/pages/<name>.html`에 페이지를 추가합니다.
+2. `<form data-calculator="<name>">`와 `[data-result]` 결과 영역을 구성합니다.
+3. 계산식을 `src/js/calculators`의 순수 함수로 추가합니다.
+4. `src/js/main.js`에 페이지 이벤트와 결과 문구를 연결합니다.
+5. 홈 화면의 카드와 링크를 `src/pages/index.html`에 추가합니다.
+6. canonical URL, `public/sitemap.xml`, 메타 설명을 갱신합니다.
+7. 정상 입력, 빈 입력, 잘못된 형식에 대한 테스트를 추가합니다.
 
-학교별 기준이나 교육 제도와 관련된 계산은 변경 근거를 커밋 메시지나 Pull Request에 남겨야 합니다.
+새 계산기는 기존 화면 스타일을 재사용해야 하며, 계산식과 DOM 이벤트를 HTML inline handler로 작성하지 않습니다.
+
+## 변경 전 검증
+
+```bash
+npm test
+npm run build
+```
+
+추가로 다음을 확인합니다.
+
+- 홈의 카테고리 탭과 검색이 정상적으로 동작하는가
+- 모든 계산기 페이지가 새로고침 후에도 열리는가
+- 정상 입력과 잘못된 입력이 각각 처리되는가
+- 결과 영역이 모바일 화면에서 잘리지 않는가
+- `dist/`에 `index.html`, 각 계산기 HTML, `assets/`, `robots.txt`, `sitemap.xml`이 생성되는가
+- 상대 링크와 GitHub Pages의 `/study-tools/` base 경로가 정상적으로 동작하는가
 
 ## 배포
 
-이 저장소는 별도의 빌드 산출물 없이 루트의 정적 파일을 그대로 배포합니다.
+`main` 브랜치에 push하면 [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)이 다음 순서로 실행됩니다.
 
-GitHub Pages 설정은 다음과 같이 유지합니다.
+1. Node.js 환경을 준비합니다.
+2. `npm ci`로 lockfile 기준 의존성을 설치합니다.
+3. `npm test`로 계산 로직을 검증합니다.
+4. `npm run build`로 `dist/`를 생성합니다.
+5. `dist/`를 GitHub Pages artifact로 업로드하고 배포합니다.
 
-1. 저장소의 `Settings`에서 `Pages`를 엽니다.
-2. `Source`에서 `Deploy from a branch`를 선택합니다.
-3. 브랜치는 `main`, 폴더는 `/ (root)`로 설정합니다.
-4. 배포가 완료되면 `https://pth7250.github.io/study-tools/`에서 확인합니다.
+저장소의 `Settings → Pages`에서 배포 source를 `GitHub Actions`로 설정해야 합니다. 소스 HTML을 루트에서 직접 배포하지 않고, 빌드된 `dist/`만 배포합니다.
 
-`main`에 병합된 HTML, CSS, JavaScript 변경은 GitHub Pages 배포 대상이 됩니다. 별도의 CI/CD 설정이나 환경 변수는 필요하지 않습니다.
-
-## 변경 전 확인 목록
-
-- 홈에서 모든 카테고리 탭이 전환되는가
-- 홈 검색이 현재 카테고리의 카드만 대상으로 동작하는가
-- 각 도구 페이지를 새로고침해도 정상적으로 열리는가
-- 정상 입력과 빈 입력, 잘못된 형식이 각각 처리되는가
-- 숫자 입력의 최소·최대 범위가 지켜지는가
-- 결과가 모바일 화면에서 잘리지 않는가
-- 계산 결과와 주의사항이 실제 계산 기준과 일치하는가
-- 새 페이지가 홈, sitemap, canonical URL에 반영되었는가
-- GitHub Pages 경로에서 상대 링크와 정적 리소스가 정상적으로 로드되는가
-
-현재 저장소에는 자동화된 테스트 러너가 없으므로, 변경 후 위 수동 확인 목록을 기준으로 검증합니다.
-
-## 데이터 및 개인정보
-
-- 별도 백엔드 서버가 없습니다.
-- 입력한 점수와 텍스트를 저장하는 기능이 없습니다.
-- 계산은 사용자의 브라우저에서 수행됩니다.
-- 민감한 개인정보나 제출용 원문은 공식 입력 화면의 정책을 먼저 확인해야 합니다.
-
-## 제한 사항
-
-- 내신 등급은 동점자 처리, 이수단위, 학교별 반영 방식에 따라 실제 결과와 다를 수 있습니다.
-- NEIS 바이트 결과는 한글 3바이트 기준의 참고값이며 공식 입력 화면의 제한과 다를 수 있습니다.
-- D-Day는 사용자의 브라우저 날짜와 시간대를 기준으로 계산합니다.
-- 결과는 참고용이며 입시·학교생활기록부 제출 전 최종 판단 자료로 사용하지 않아야 합니다.
-
-## 기여
-
-오탈자, 접근성, 모바일 레이아웃, 계산 기준, 새로운 학습 도구에 대한 개선을 환영합니다.
+## 브랜치와 커밋
 
 ```bash
 git checkout -b feat/<변경 내용>
 ```
 
-변경 후에는 위의 수동 확인 목록을 실행하고, 계산 기준을 바꾼 경우 근거와 영향을 Pull Request에 적어 주세요.
+계산 기준 변경은 근거와 영향을 커밋 메시지나 Pull Request에 남깁니다. 화면 변경이 없는 구조 변경이라도 테스트와 빌드 결과를 함께 확인합니다.
+
+## 데이터 및 개인정보
+
+- 백엔드 서버와 데이터베이스가 없습니다.
+- 입력한 점수와 텍스트를 저장하거나 전송하지 않습니다.
+- 계산은 사용자의 브라우저에서 수행됩니다.
+- 제출용 원문이나 민감한 정보는 공식 입력 화면의 정책을 우선 확인해야 합니다.
 
 ## 라이선스
 
-현재 저장소에는 별도의 `LICENSE` 파일이 없습니다. 코드를 재사용하거나 배포하기 전 저장소 소유자에게 사용 범위를 확인해 주세요.
+현재 저장소에는 별도의 `LICENSE` 파일이 없습니다. 코드를 재사용하거나 재배포하기 전 저장소 소유자에게 사용 범위를 확인해 주세요.

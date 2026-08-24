@@ -1,0 +1,16 @@
+{
+  "name": "study-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}
