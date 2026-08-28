@@ -107,7 +107,7 @@ function setupTabs() {
     panels.forEach((panel) => panel.classList.remove("active"));
     tab.classList.add("active");
     tab.setAttribute("aria-selected", "true");
-    query(`#${tab.dataset.target}`)?.classList.add("active");
+    panels.find((panel) => panel.id === tab.dataset.target)?.classList.add("active");
     applySearch();
     window.localStorage?.setItem("studytools-tab", tab.dataset.target);
   }));
@@ -184,8 +184,42 @@ function setupTimer() {
 
 function createSubjectRow() {
   const row = document.createElement("div");
+  const name = document.createElement("input");
+  const score = document.createElement("input");
+  const weight = document.createElement("input");
+  const remove = document.createElement("button");
+
   row.className = "subject-row";
-  row.innerHTML = '<input class="subject-name" aria-label="과목명" placeholder="예: 국어"><input class="subject-score" aria-label="점수" inputmode="decimal" type="number" min="0" max="100" step="0.1" placeholder="90"><input class="subject-weight" aria-label="반영비율 또는 가중치" inputmode="decimal" type="number" min="0.01" max="100" step="0.01" placeholder="1"><button class="remove-subject" type="button" aria-label="과목 삭제">×</button>';
+
+  name.className = "subject-name";
+  name.setAttribute("aria-label", "과목명");
+  name.placeholder = "예: 국어";
+  name.maxLength = 100;
+
+  score.className = "subject-score";
+  score.setAttribute("aria-label", "점수");
+  score.inputMode = "decimal";
+  score.type = "number";
+  score.min = "0";
+  score.max = "100";
+  score.step = "0.1";
+  score.placeholder = "90";
+
+  weight.className = "subject-weight";
+  weight.setAttribute("aria-label", "반영비율 또는 가중치");
+  weight.inputMode = "decimal";
+  weight.type = "number";
+  weight.min = "0.01";
+  weight.max = "100";
+  weight.step = "0.01";
+  weight.placeholder = "1";
+
+  remove.className = "remove-subject";
+  remove.type = "button";
+  remove.setAttribute("aria-label", "과목 삭제");
+  remove.textContent = "×";
+
+  row.append(name, score, weight, remove);
   return row;
 }
 
